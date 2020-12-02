@@ -38,4 +38,6 @@ function loopData(numbers) {
 
 let foo = loopData(data)
 
-console.log('foo', foo)
+let result = foo[0] * foo[1]
+
+console.log('result', result)
