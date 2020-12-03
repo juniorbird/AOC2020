@@ -14,18 +14,34 @@ try {
 // First step: array with 1 line per line of input
 data = data.split('\n')
 
-const run = 3, rise = 1, tree = '#', mapHeight = data.length, mapWidth = data[0].length
-let right = 0, down = 0, treeCount = 0
+// const run = 3, rise = 1, tree = '#', mapHeight = data.length, mapWidth = data[0].length
+// let right = 0, down = 0, treeCount = 0
 
-console.log('map width', mapWidth, "map height", mapHeight)
+function countTrees(mapArray, run, rise) {
+	let treeCount = 0, right = 0, down = 0, tree = '#'
+	let mapHeight = mapArray.length, mapWidth = mapArray[0].length
 
-// Now we'll just loop through the lines
-// Each "down" is the next el in the array
-// Each "right" is just a charAt
-for (down; down < mapHeight; down = down + rise) {
-	console.log(`checking element ${right}, ${down}, with value ${data[down].charAt(right)}`)
-	if (data[down].charAt(right) === tree) treeCount++
-	right = (right + run) % mapWidth
+	// Now we'll just loop through the lines
+	// Each "down" is the next el in the array
+	// Each "right" is just a charAt
+	for (down; down < mapHeight; down = down + rise) {
+		if (mapArray[down].charAt(right) === tree) treeCount++
+		right = (right + run) % mapWidth
+	}
+
+	return treeCount
 }
 
-console.log('total trees', treeCount)
+let mapSlopes = [[1, 1], [3, 1], [5, 1], [7, 1], [1, 2]]
+
+let slopeProduct = 1, slopeRight, slopeDown, treeCount
+
+mapSlopes.forEach(slope => {
+	slopeRight = slope[0]
+	slopeDown = slope[1]
+	treeCount = countTrees(data, slopeRight, slopeDown)
+	console.log(`total trees with slope ${slopeRight}, ${slopeDown} = ${treeCount}`)
+	slopeProduct = slopeProduct * treeCount
+})
+
+console.log('product', slopeProduct)
