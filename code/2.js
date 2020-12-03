@@ -44,10 +44,17 @@ function passwordIsValid(password, reqChar, minChar, maxChar) {
 	return ((count >= minChar) && (count <= maxChar))
 }
 
+function passwordContainsExactCharacters(password, reqChar, pos1, pos2) {
+	// subtract 1 because we're moving from 1-indexed to 0-indexed
+	let isPos1 = password.charAt(pos1 - 1) === reqChar
+	let isPos2 = password.charAt(pos2 - 1) === reqChar
+	return ((isPos1 && !isPos2) || (!isPos1 && isPos2))
+}
+
 // we now have a usable array of objects that we can loop through and check if they're valid
 let countValid = 0
 cleanData.forEach(datum => {
-	if(passwordIsValid(datum.passwd, datum.letter, datum.min, datum.max)) countValid++
+	if(passwordContainsExactCharacters(datum.passwd, datum.letter, datum.min, datum.max)) countValid++
 })
 
 console.log('valid passwords', countValid)
