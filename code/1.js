@@ -18,26 +18,38 @@ data = data.split('\n').filter(v => v < target).sort((a, b) => a-b)
 	Success!
 */
 
-let ht = {}
+let numberTable = {}
+let resultsTable = []
 
 
-function loopData(numbers) {
+function loopData(numbers, testNum, skipIdx) {
 	let len = numbers.length
 	let i = 0, remainder
 
 	while (i < len) {
-		remainder = target - numbers[i]
-		if (ht[remainder]) {
-			return([ht[remainder], numbers[i]])
-		} else {
-			ht[numbers[i]] = numbers[i]
+		// subtract the current number and the externally provided number from the target number
+		// skipping the target number
+		remainder = target - numbers[i] - testNum
+		if ((i !== skipIdx) && numberTable[remainder]) {
+			// we've found all 3 numbers!
+			resultsTable.push([numberTable[remainder], numbers[i], testNum])
+			return([numberTable[remainder], numbers[i], testNum])
+		} else if (i !== skipIdx) {
+			// Nope, save the remainder for later use
+			numberTable[numbers[i]] = numbers[i]
 		}
 		i++
 	}
 }
 
-let foo = loopData(data)
 
-let result = foo[0] * foo[1]
+let k = 0, dataLength = data.length
+while ((k < dataLength) && (resultsTable.length === 0)) {
+	loopData(data, data[k], k)
+	k++
+}
+
+
+let result = resultsTable[0].reduce((accum, val) => accum * val)
 
 console.log('result', result)
