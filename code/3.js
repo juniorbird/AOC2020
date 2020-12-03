@@ -14,8 +14,6 @@ try {
 // First step: array with 1 line per line of input
 data = data.split('\n')
 
-// const run = 3, rise = 1, tree = '#', mapHeight = data.length, mapWidth = data[0].length
-// let right = 0, down = 0, treeCount = 0
 
 function countTrees(mapArray, run, rise) {
 	let treeCount = 0, right = 0, down = 0, tree = '#'
